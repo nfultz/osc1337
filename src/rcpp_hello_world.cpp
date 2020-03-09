@@ -2,7 +2,10 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-
+void pngDumpCallback(...){
+  
+  NULL;
+}
 
 pDevDesc osc_driver_new(int bg, double width, double height, double pointsize) {
   
@@ -18,24 +21,24 @@ pDevDesc osc_driver_new(int bg, double width, double height, double pointsize) {
   dd->startgamma = 1;
   
   // Callbacks
-  dd->activate = NULL;
-  dd->deactivate = NULL;
-  dd->close = NULL;//svg_close;
-  dd->clip = NULL;//svg_clip;
-  dd->size = NULL;//svg_size;
-  dd->newPage = NULL;//svg_new_page;
-  dd->line = NULL;//svg_line;
-  dd->text = NULL;//svg_text;
-  dd->strWidth = NULL;//svg_strwidth;
-  dd->rect = NULL;//svg_rect;
-  dd->circle = NULL;//svg_circle;
-  dd->polygon = NULL;//svg_polygon;
-  dd->polyline = NULL;//svg_polyline;
-  dd->path = NULL;//svg_path;
+  dd->activate = pngDumpCallback;
+  dd->deactivate = pngDumpCallback;
+  dd->close = pngDumpCallback;
+  dd->clip = pngDumpCallback;
+  dd->size = pngDumpCallback;
+  dd->newPage = pngDumpCallback;
+  dd->line = pngDumpCallback;
+  dd->text = pngDumpCallback;
+  dd->strWidth = pngDumpCallback;
+  dd->rect = pngDumpCallback;
+  dd->circle = pngDumpCallback;
+  dd->polygon = pngDumpCallback;
+  dd->polyline = pngDumpCallback;
+  dd->path = pngDumpCallback;
   dd->mode = NULL;
-  dd->metricInfo = NULL;//svg_metric_info;
+  dd->metricInfo = pngDumpCallback;
   dd->cap = NULL;
-  dd->raster = NULL;//svg_raster;
+  dd->raster = pngDumpCallback;
   
   // UTF-8 support
   dd->wantSymbolUTF8 = (Rboolean) 1;
@@ -94,10 +97,10 @@ void makeDevice(std::string bg_, double width, double height,
 }
 
 // [[Rcpp::export]]
-bool osc1337_(std::string file, std::string bg, double width, double height,
-              double pointsize, bool standalone, Rcpp::List aliases) {
+bool osc1337_(std::string bg, double width, double height, double pointsize) {
   
   makeDevice(bg, width, height, pointsize);
   
   return true;
 }
+
