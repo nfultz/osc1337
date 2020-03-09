@@ -2,7 +2,14 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-void pngDumpCallback(...){
+
+// void pngDumpCallback(...){
+//   Environment osc1337("package:osc1337");
+//   Function cb("dev2osc", osc1337);
+//   cb();
+// }
+
+void noop(...) {
   
 }
 
@@ -14,7 +21,7 @@ pDevDesc osc_driver_new(int bg, int height, int width, int pointsize) {
     return dd;
   
   dd->startfill = bg;
-  dd->startcol = R_RGB(80, 80, 80);
+  dd->startcol = R_RGB(90, 90, 90);
   dd->startps = pointsize;
   dd->startlty = 0;
   dd->startfont = 1;
@@ -23,20 +30,20 @@ pDevDesc osc_driver_new(int bg, int height, int width, int pointsize) {
   // Callbacks
   dd->activate = NULL;
   dd->deactivate = NULL;
-  dd->close = (void (*)(pDevDesc)) pngDumpCallback;
-  dd->clip = (void (*)(double, double, double, double, pDevDesc)) pngDumpCallback;
-  dd->size = (void (*)(double*, double*, double*, double*, pDevDesc)) pngDumpCallback;
-  dd->newPage = (void (*)(pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->line = (void (*)(double, double, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->text = (void (*)(double, double, const char*, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->strWidth = (double (*)(const char*, pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->rect = (void (*)(double, double, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->circle = (void (*)(double, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->polygon = (void (*)(int, double*, double*, pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->polyline = (void (*)(int, double*, double*, pGEcontext, pDevDesc)) pngDumpCallback;
-  dd->path = (void (*)(double*, double*, int, int*, Rboolean, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->close = (void (*)(pDevDesc)) noop;
+  dd->clip = (void (*)(double, double, double, double, pDevDesc)) noop;
+  dd->size = (void (*)(double*, double*, double*, double*, pDevDesc)) noop;
+  dd->newPage = (void (*)(pGEcontext, pDevDesc)) noop;
+  dd->line = (void (*)(double, double, double, double, pGEcontext, pDevDesc)) noop;
+  dd->text = (void (*)(double, double, const char*, double, double, pGEcontext, pDevDesc)) noop;
+  dd->strWidth = (double (*)(const char*, pGEcontext, pDevDesc)) noop;
+  dd->rect = (void (*)(double, double, double, double, pGEcontext, pDevDesc)) noop;
+  dd->circle = (void (*)(double, double, double, pGEcontext, pDevDesc)) noop;
+  dd->polygon = (void (*)(int, double*, double*, pGEcontext, pDevDesc)) noop;
+  dd->polyline = (void (*)(int, double*, double*, pGEcontext, pDevDesc)) noop;
+  dd->path = (void (*)(double*, double*, int, int*, Rboolean, pGEcontext, pDevDesc)) noop;
   dd->mode = NULL;
-  dd->metricInfo = (void (*)(int, pGEcontext, double*, double*, double*, pDevDesc)) pngDumpCallback;
+  dd->metricInfo = (void (*)(int, pGEcontext, double*, double*, double*, pDevDesc)) noop;
   dd->cap = NULL;
   dd->raster = NULL;
   
@@ -76,14 +83,16 @@ pDevDesc osc_driver_new(int bg, int height, int width, int pointsize) {
   return dd;
 }
 
-void makeDevice(std::string bg_, double width, double height, double pointsize) {
-  
-  int bg = R_GE_str2col(bg_.c_str());
+
+// [[Rcpp::export]]
+bool osc1337_(std::string bg="transparent", double width=400, double height=300, double pointsize=12) {
+
+  int ibg = R_GE_str2col(bg.c_str());
   
   R_GE_checkVersionOrDie(R_GE_version);
   R_CheckDeviceAvailable();
   BEGIN_SUSPEND_INTERRUPTS {
-    pDevDesc dev = osc_driver_new(bg, width, height, pointsize);
+    pDevDesc dev = osc_driver_new(ibg, width, height, pointsize);
     if (dev == NULL)
       Rcpp::stop("Failed to start OSC proxy device");
     
@@ -93,13 +102,6 @@ void makeDevice(std::string bg_, double width, double height, double pointsize) 
     dd->displayListOn = TRUE;
     
   } END_SUSPEND_INTERRUPTS;
-}
-
-// [[Rcpp::export]]
-bool osc1337_(std::string bg="transparent", double width=400, double height=300, double pointsize=12) {
-
-  makeDevice(bg, width, height, pointsize);
-
   return true;
 }
 

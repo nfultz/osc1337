@@ -18,16 +18,16 @@ osc1337 <- function(filename='/dev/null',
 }
 
 
-dev2osc <- function(i, filename=tempfile(fileext = ".png")) {
-  me <- dev.cur()
-  on.exit(dev.set(me))
-  
-  dev.set(i)
-  
+dev2osc <- function(filename=tempfile(fileext = ".png")) {
+
+  message(1)
   dev.copy(png, filename=filename)
+  message(2)
   dev.off()
   
+  message(3)
   cat(filename)
+  message(4)
   cat(length(readBin(filename, "raw", file.size(filename))))
   
 }
