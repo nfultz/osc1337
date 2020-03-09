@@ -7,6 +7,4 @@ Author: Neal Fultz
 Maintainer: Neal Fultz <nfultz@gmail.com>
 Description: One paragraph description of what the package does as one or more full sentences.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.3),
-  grDevices
-LinkingTo: Rcpp
+Imports: grDevices, base64enc
