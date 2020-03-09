@@ -1,11 +1,12 @@
 Package: osc1337
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
-Version: 1.0
+Title: Terminal Graphics with 'OSC 1337'
+Version: 0.1.0
 Date: 2020-02-26
-Author: Your Name
-Maintainer: Your Name <your@email.com>
+Author: Neal Fultz
+Maintainer: Neal Fultz <nfultz@gmail.com>
 Description: One paragraph description of what the package does as one or more full sentences.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.3)
+Imports: Rcpp (>= 1.0.3),
+  grDevices
 LinkingTo: Rcpp

@@ -1,12 +1,9 @@
 
 
-osc1337 <- function(filename=NA,
+osc1337 <- function(filename='/dev/null',
                     width=320, height=320, 
                     units= "px", pointsize=12, 
                     bg="transparent", ...) {
-
-  if(is.na(filename))   
-    filename <- tempfile(fileext = "png")
 
     
   png(filename = filename, width = width, height = height, units = units, pointsize = pointsize, bg=bg, ...)
@@ -21,13 +18,16 @@ osc1337 <- function(filename=NA,
 }
 
 
-dev2osc <- function() {
-  me <- dev.current()
+dev2osc <- function(i, filename=tempfile(fileext = ".png")) {
+  me <- dev.cur()
   on.exit(dev.set(me))
   
-  i <- 1
+  dev.set(i)
   
-  dev.copy(png)
+  dev.copy(png, filename=filename)
   dev.off()
+  
+  cat(filename)
+  cat(length(readBin(filename, "raw", file.size(filename))))
   
 }
