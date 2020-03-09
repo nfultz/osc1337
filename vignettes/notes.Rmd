@@ -1,0 +1,21 @@
+---
+title: "Notes"
+output: html_notebook
+---
+
+R Graphics devices are somewhat sparsely documented:
+
+https://cran.r-project.org/doc/manuals/r-release/R-ints.html#Graphics-Devices
+
+graphics.h
+GraphicsDevice.h
+
+
+OmegaHat had some docs as well:
+http://www.omegahat.net/RGraphicsDevice/overview.html
+
+
+It's somewhat helpful to look at a more modern implementation (eg with Rcpp):
+https://github.com/r-lib/svglite/blob/master/src/devSVG.cpp
+
+

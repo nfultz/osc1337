@@ -4,10 +4,10 @@ using namespace Rcpp;
 
 void pngDumpCallback(...){
   
-  NULL;
 }
 
-pDevDesc osc_driver_new(int bg, double width, double height, double pointsize) {
+
+pDevDesc osc_driver_new(int bg, int height, int width, int pointsize) {
   
   pDevDesc dd = (DevDesc*) calloc(1, sizeof(DevDesc));
   if (dd == NULL)
@@ -21,24 +21,24 @@ pDevDesc osc_driver_new(int bg, double width, double height, double pointsize) {
   dd->startgamma = 1;
   
   // Callbacks
-  dd->activate = pngDumpCallback;
-  dd->deactivate = pngDumpCallback;
-  dd->close = pngDumpCallback;
-  dd->clip = pngDumpCallback;
-  dd->size = pngDumpCallback;
-  dd->newPage = pngDumpCallback;
-  dd->line = pngDumpCallback;
-  dd->text = pngDumpCallback;
-  dd->strWidth = pngDumpCallback;
-  dd->rect = pngDumpCallback;
-  dd->circle = pngDumpCallback;
-  dd->polygon = pngDumpCallback;
-  dd->polyline = pngDumpCallback;
-  dd->path = pngDumpCallback;
+  dd->activate = NULL;
+  dd->deactivate = NULL;
+  dd->close = (void (*)(pDevDesc)) pngDumpCallback;
+  dd->clip = (void (*)(double, double, double, double, pDevDesc)) pngDumpCallback;
+  dd->size = (void (*)(double*, double*, double*, double*, pDevDesc)) pngDumpCallback;
+  dd->newPage = (void (*)(pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->line = (void (*)(double, double, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->text = (void (*)(double, double, const char*, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->strWidth = (double (*)(const char*, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->rect = (void (*)(double, double, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->circle = (void (*)(double, double, double, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->polygon = (void (*)(int, double*, double*, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->polyline = (void (*)(int, double*, double*, pGEcontext, pDevDesc)) pngDumpCallback;
+  dd->path = (void (*)(double*, double*, int, int*, Rboolean, pGEcontext, pDevDesc)) pngDumpCallback;
   dd->mode = NULL;
-  dd->metricInfo = pngDumpCallback;
+  dd->metricInfo = (void (*)(int, pGEcontext, double*, double*, double*, pDevDesc)) pngDumpCallback;
   dd->cap = NULL;
-  dd->raster = pngDumpCallback;
+  dd->raster = NULL;
   
   // UTF-8 support
   dd->wantSymbolUTF8 = (Rboolean) 1;
@@ -76,8 +76,7 @@ pDevDesc osc_driver_new(int bg, double width, double height, double pointsize) {
   return dd;
 }
 
-void makeDevice(std::string bg_, double width, double height,
-                double pointsize) {
+void makeDevice(std::string bg_, double width, double height, double pointsize) {
   
   int bg = R_GE_str2col(bg_.c_str());
   
@@ -97,10 +96,10 @@ void makeDevice(std::string bg_, double width, double height,
 }
 
 // [[Rcpp::export]]
-bool osc1337_(std::string bg, double width, double height, double pointsize) {
-  
+bool osc1337_(std::string bg="transparent", double width=400, double height=300, double pointsize=12) {
+
   makeDevice(bg, width, height, pointsize);
-  
+
   return true;
 }
 
