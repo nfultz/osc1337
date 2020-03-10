@@ -5,6 +5,7 @@ oldopts <- new.env(parent = emptyenv())
 .onAttach <- function(libname, pkgname) {
   oldopts$i   <- nullpng()
   oldopts$pal <- palette()
+  oldopts$par <- par(fg='grey50', col='grey50', col.axis='grey50', col.lab='grey50', col.main='grey50', col.sub='grey50')
   
   newpal <- adjustcolor(col=seq_along(palette()), 1, .7, .7, .7, offset=.6*c(1,1,1,1))
   
@@ -12,8 +13,9 @@ oldopts <- new.env(parent = emptyenv())
 }
 
 .onDetach <- function(libpath) {
-  dev.off(nulldev$i)
+  dev.off(oldopts$i)
   palette(oldopts$pal)
+  par(oldopts$par)
 }
 
 
