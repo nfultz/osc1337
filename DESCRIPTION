@@ -3,8 +3,8 @@ Type: Package
 Title: Terminal Graphics with 'OSC 1337'
 Version: 0.1.0
 Date: 2020-02-26
-Author: Neal Fultz
+Author: Neal Fultz, Mike Frysinger for original shell scripts
 Maintainer: Neal Fultz <nfultz@gmail.com>
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: Implements graphics device for 'OSC1337'-compliant terminal.
 License: GPL (>= 2)
 Imports: grDevices, base64enc
