@@ -3,6 +3,8 @@ title: "Notes"
 output: html_notebook
 ---
 
+## D1
+
 R Graphics devices are somewhat sparsely documented:
 
 https://cran.r-project.org/doc/manuals/r-release/R-ints.html#Graphics-Devices
@@ -12,10 +14,20 @@ GraphicsDevice.h
 
 
 OmegaHat had some docs as well:
-http://www.omegahat.net/RGraphicsDevice/overview.html
+[RGraphicsDevice](http://www.omegahat.net/RGraphicsDevice/overview.html)
 
 
 It's somewhat helpful to look at a more modern implementation (eg with Rcpp):
-https://github.com/r-lib/svglite/blob/master/src/devSVG.cpp
+[svglite](https://github.com/r-lib/svglite/blob/master/src/devSVG.cpp)
 
+## D2
 
+Removing device for now to get early testing.
+
+Rstudio has a dummy driver also:
+
+[RShadowPNGGraphicsHandler.cpp](https://github.com/rstudio/rstudio/blob/master/src/cpp/r/session/graphics/RShadowPngGraphicsHandler.cpp)
+
+## D3
+
+mode(1) is called on device on each drawing op - can shim that onto a png device.

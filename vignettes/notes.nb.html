@@ -1749,14 +1749,27 @@ summary {
 
 
 <!-- rnb-text-begin -->
+<div id="d1" class="section level2">
+<h2>D1</h2>
 <p>R Graphics devices are somewhat sparsely documented:</p>
 <p><a href="https://cran.r-project.org/doc/manuals/r-release/R-ints.html#Graphics-Devices" class="uri">https://cran.r-project.org/doc/manuals/r-release/R-ints.html#Graphics-Devices</a></p>
 <p>graphics.h GraphicsDevice.h</p>
-<p>OmegaHat had some docs as well: <a href="http://www.omegahat.net/RGraphicsDevice/overview.html" class="uri">http://www.omegahat.net/RGraphicsDevice/overview.html</a></p>
-<p>It’s somewhat helpful to look at a more modern implementation (eg with Rcpp): <a href="https://github.com/r-lib/svglite/blob/master/src/devSVG.cpp" class="uri">https://github.com/r-lib/svglite/blob/master/src/devSVG.cpp</a></p>
+<p>OmegaHat had some docs as well: <a href="http://www.omegahat.net/RGraphicsDevice/overview.html">RGraphicsDevice</a></p>
+<p>It’s somewhat helpful to look at a more modern implementation (eg with Rcpp): <a href="https://github.com/r-lib/svglite/blob/master/src/devSVG.cpp">svglite</a></p>
+</div>
+<div id="d2" class="section level2">
+<h2>D2</h2>
+<p>Removing device for now to get early testing.</p>
+<p>Rstudio has a dummy driver also:</p>
+<p><a href="https://github.com/rstudio/rstudio/blob/master/src/cpp/r/session/graphics/RShadowPngGraphicsHandler.cpp">RShadowPNGGraphicsHandler.cpp</a></p>
+</div>
+<div id="d3" class="section level2">
+<h2>D3</h2>
+<p>mode(1) is called on device on each drawing op - can shim that onto a png device.</p>
 <!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTm90ZXMiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KClIgR3JhcGhpY3MgZGV2aWNlcyBhcmUgc29tZXdoYXQgc3BhcnNlbHkgZG9jdW1lbnRlZDoKCmh0dHBzOi8vY3Jhbi5yLXByb2plY3Qub3JnL2RvYy9tYW51YWxzL3ItcmVsZWFzZS9SLWludHMuaHRtbCNHcmFwaGljcy1EZXZpY2VzCgpncmFwaGljcy5oCkdyYXBoaWNzRGV2aWNlLmgKCgpPbWVnYUhhdCBoYWQgc29tZSBkb2NzIGFzIHdlbGw6Cmh0dHA6Ly93d3cub21lZ2FoYXQubmV0L1JHcmFwaGljc0RldmljZS9vdmVydmlldy5odG1sCgoKSXQncyBzb21ld2hhdCBoZWxwZnVsIHRvIGxvb2sgYXQgYSBtb3JlIG1vZGVybiBpbXBsZW1lbnRhdGlvbiAoZWcgd2l0aCBSY3BwKToKaHR0cHM6Ly9naXRodWIuY29tL3ItbGliL3N2Z2xpdGUvYmxvYi9tYXN0ZXIvc3JjL2RldlNWRy5jcHAKCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTm90ZXMiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMjIEQxCgpSIEdyYXBoaWNzIGRldmljZXMgYXJlIHNvbWV3aGF0IHNwYXJzZWx5IGRvY3VtZW50ZWQ6CgpodHRwczovL2NyYW4uci1wcm9qZWN0Lm9yZy9kb2MvbWFudWFscy9yLXJlbGVhc2UvUi1pbnRzLmh0bWwjR3JhcGhpY3MtRGV2aWNlcwoKZ3JhcGhpY3MuaApHcmFwaGljc0RldmljZS5oCgoKT21lZ2FIYXQgaGFkIHNvbWUgZG9jcyBhcyB3ZWxsOgpbUkdyYXBoaWNzRGV2aWNlXShodHRwOi8vd3d3Lm9tZWdhaGF0Lm5ldC9SR3JhcGhpY3NEZXZpY2Uvb3ZlcnZpZXcuaHRtbCkKCgpJdCdzIHNvbWV3aGF0IGhlbHBmdWwgdG8gbG9vayBhdCBhIG1vcmUgbW9kZXJuIGltcGxlbWVudGF0aW9uIChlZyB3aXRoIFJjcHApOgpbc3ZnbGl0ZV0oaHR0cHM6Ly9naXRodWIuY29tL3ItbGliL3N2Z2xpdGUvYmxvYi9tYXN0ZXIvc3JjL2RldlNWRy5jcHApCgojIyBEMgoKUmVtb3ZpbmcgZGV2aWNlIGZvciBub3cgdG8gZ2V0IGVhcmx5IHRlc3RpbmcuCgpSc3R1ZGlvIGhhcyBhIGR1bW15IGRyaXZlciBhbHNvOgoKW1JTaGFkb3dQTkdHcmFwaGljc0hhbmRsZXIuY3BwXShodHRwczovL2dpdGh1Yi5jb20vcnN0dWRpby9yc3R1ZGlvL2Jsb2IvbWFzdGVyL3NyYy9jcHAvci9zZXNzaW9uL2dyYXBoaWNzL1JTaGFkb3dQbmdHcmFwaGljc0hhbmRsZXIuY3BwKQoKIyMgRDMKCm1vZGUoMSkgaXMgY2FsbGVkIG9uIGRldmljZSBvbiBlYWNoIGRyYXdpbmcgb3AgLSBjYW4gc2hpbSB0aGF0IG9udG8gYSBwbmcgZGV2aWNlLg==</div>
 
 
 

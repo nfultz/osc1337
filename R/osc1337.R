@@ -4,6 +4,9 @@ oldopts <- new.env(parent = emptyenv())
 
 .onAttach <- function(libname, pkgname) {
   oldopts$i   <- nullpng()
+  
+  .Call("shim", as.integer(oldopts$i - 1), PACKAGE="osc1337")
+  
   oldopts$pal <- palette()
   oldopts$par <- par(fg='grey50', col='grey50', col.axis='grey50', col.lab='grey50', col.main='grey50', col.sub='grey50')
   
@@ -36,10 +39,14 @@ nullpng <- function(filename = nullfile(),
 
 
 
-osc1337 <- function(filename=tempfile(fileext = ".png")) {
+osc1337 <- function(filename=tempfile(fileext = ".png"), inline=TRUE) {
 
-  i <- dev.copy(png, filename=filename)
+  inline <- if(inline) "inline=1:" else ""
   size <- dev.size("px")
+  
+  
+  
+  i <- dev.copy(png, filename=filename, width=size[1], height=size[2])
   dev.off(i)
   
   cat(filename, "\n", size, "\n")
@@ -50,7 +57,7 @@ osc1337 <- function(filename=tempfile(fileext = ".png")) {
     'File=name=', base64enc::base64encode(charToRaw(basename(filename))), ';',
     'width=', size[1], ';',
     'height=', size[2], ';',
-    'inline=1:',
+    inline,
     base64enc::base64encode(filename),
     '\a'
   )
