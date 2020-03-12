@@ -3,6 +3,11 @@
 oldopts <- new.env(parent = emptyenv())
 
 .onAttach <- function(libname, pkgname) {
+  
+  if(Sys.getenv("RSTUDIO") == 1) {
+    return(message("Not compatible with RStudio console or terminal."))
+  }
+  
   oldopts$i   <- nullpng()
   
   .Call("shim", as.integer(oldopts$i - 1), PACKAGE="osc1337")
@@ -13,12 +18,30 @@ oldopts <- new.env(parent = emptyenv())
   newpal <- adjustcolor(col=seq_along(palette()), 1, .7, .7, .7, offset=.6*c(1,1,1,1))
   
   palette(newpal)
+  
+  
+  addTaskCallback(name="osc1337", function(expr, value, ok, visible) {
+    
+    if(dev.cur() != oldopts$i) return(invisible());
+    
+    dirty <- .Call("reset_mode", as.integer(oldopts$i - 1), PACKAGE="osc1337")
+    
+    if(dirty && ok && !visible) {
+      osc1337()
+    }
+    
+    TRUE
+  })
 }
 
 .onDetach <- function(libpath) {
+  if(Sys.getenv("RSTUDIO") == 1) {
+    return(invisible())
+  }
   dev.off(oldopts$i)
   palette(oldopts$pal)
   par(oldopts$par)
+  removeTaskCallback("osc1337")
 }
 
 
@@ -30,7 +53,7 @@ nullpng <- function(filename = nullfile(),
                     bg = getOption("osc1337.bg", "transparent"), 
                     ...) {
 
-  if(!interactive()) warning("Using `osc1337`` non-interactively")
+  if(!interactive()) message("Using `osc1337`` non-interactively. Logs may contain encoded image data.")
     
   png(filename = filename, width = width, height = height, units = units, pointsize = pointsize, bg=bg, ...)
   dev.control("enable")
