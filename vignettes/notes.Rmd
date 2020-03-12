@@ -34,8 +34,12 @@ mode(1) is called on device on each drawing op - can shim that onto a png device
 
 see mode.c for new mode function, and shim for adding it to existing png device.  State is being saved in an unused bit.
 
+* C device indexes are from 0 - dev.cur is from 1
+
 ## D3.2
 
 By registering a Task Callback, we can plot if needed. 
 
 * Register on package attach, deregister on unattach. 
+
+
