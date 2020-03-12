@@ -10,19 +10,11 @@ void save_mode(int mode, pDevDesc dd) {
 SEXP reset_mode(SEXP deviceIndex) {
 
   int i = INTEGER(deviceIndex)[0];
-  
   pGEDevDesc gedd = GEgetDevice(i);
-  
-  
-  SEXP out;
-  PROTECT(out = allocVector(LGLSXP, 1)); 
-  LOGICAL(out)[0] = gedd->dev->canChangeGamma;
-
+  SEXP out = ScalarLogical(gedd->dev->canChangeGamma);
   gedd->dev->canChangeGamma = FALSE;
-  
-  UNPROTECT(1);
+
   return out;
-  
 }
 
 SEXP shim(SEXP deviceIndex) {
