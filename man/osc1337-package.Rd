@@ -1,9 +1,8 @@
 \name{osc1337-package}
 \alias{osc1337-package}
-\alias{osc1337}
 \docType{package}
 \title{
-  A short title line describing what the package does
+  Terminal Graphics using OSC-1337
 }
 \description{
   A more detailed description of what the package does. A length
@@ -14,21 +13,17 @@
   package, including the most important functions.
 }
 \author{
-Your Name, email optional.
+Neal Fultz, Mike Frysinger for original shell scripts
 
-Maintainer: Your Name <your@email.com>
+Maintainer: Neal Fultz <nfultz@gmail.com>
 }
 \references{
-  This optional section can contain literature or other references for
-  background information.
+  The inline image protocol is defined at \url{https://www.iterm2.com/documentation-images.html}.
 }
 \keyword{ package }
-\seealso{
-  Optional links to other man pages
-}
 \examples{
   \dontrun{
-     ## Optional simple examples of the most important functions
-     ## These can be in \dontrun{} and \donttest{} blocks.   
+      library(osc1337)
+      barplot(1:10) # should appear in terminal.
   }
 }
