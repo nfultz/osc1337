@@ -5,10 +5,10 @@ oldopts <- new.env(parent = emptyenv())
 .onAttach <- function(libname, pkgname) {
 
   if(Sys.getenv("RSTUDIO") == 1) {
-    return(message("Not compatible with RStudio console or terminal."))
+    return(packageStartupMessage("Not compatible with RStudio console or terminal."))
   }
 
-  oldopts$i   <- nullpng()
+  oldopts$i   <- nullpng(message=packageStartupMessage)
 
   .Call("shim", as.integer(oldopts$i - 1), PACKAGE="osc1337")
 
@@ -52,7 +52,7 @@ nullpng <- function(filename = nullfile(),
                     units = "px",
                     pointsize = getOption("osc1337.pointsize", 12),
                     bg = getOption("osc1337.bg", "transparent"),
-                    ...) {
+                    ..., message=message) {
 
   if(!interactive()) message("Using `osc1337`` non-interactively. Logs may contain encoded image data.")
 
