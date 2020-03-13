@@ -8,4 +8,5 @@ Maintainer: Neal Fultz <nfultz@gmail.com>
 Description: Implements graphics device for 'OSC1337'-compliant terminal.
 License: GPL (>= 2)
 Imports: grDevices, base64enc
-Suggests: colorout
+VignetteBuilder: knitr
+Suggests: colorout, knitr

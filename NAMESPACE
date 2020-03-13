@@ -2,5 +2,7 @@ export(notify)
 export(osc1337)
 export(put52)
 export(show1337)
+import(graphics)
+import(grDevices)
 useDynLib(osc1337)
 

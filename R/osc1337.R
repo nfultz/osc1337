@@ -52,7 +52,7 @@ nullpng <- function(filename = nullfile(),
                     units = "px",
                     pointsize = getOption("osc1337.pointsize", 12),
                     bg = getOption("osc1337.bg", "transparent"),
-                    ..., message=message) {
+                    ..., message=base::message) {
 
   if(!interactive()) message("Using `osc1337`` non-interactively. Logs may contain encoded image data.")
 
@@ -78,12 +78,7 @@ show1337 <- function(filename, size=c('auto', 'auto')) {
       cat(length(readBin(filename, "raw", file.size(filename))), "\n")
   }
 
-  osc1337(
-    filename,
-    width=size[1],
-    height=size[2],
-    inline=1
-  )
+  osc1337( filename, width=size[1], height=size[2], inline=1)
 }
 
 osc1337 <- function(filename, ...) {
@@ -91,12 +86,7 @@ osc1337 <- function(filename, ...) {
   x <- c(name=x, ...)
   x <- paste0(names(x), '=', x, sep=';')
 
-  escaper(
-    '\033]1337;',
-    'File=', x, ':',
-    base64enc::base64encode(filename),
-    '\a'
-  )
+  escaper( '\033]1337;', 'File=', x, ':', base64enc::base64encode(filename), '\a')
 }
 
 notify <- function(title, body='') {
@@ -111,7 +101,7 @@ put52 <- function(...) {
 escaper <- function(...) {
   if(requireNamespace("colorout")) try({
       if(colorout::isColorOut())
-        on.exit(colorout::ColorOut())
+        on.exit(try(colorout::ColorOut()))
       colorout::noColorOut()
   })
 

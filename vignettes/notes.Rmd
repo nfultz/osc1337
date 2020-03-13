@@ -1,7 +1,7 @@
----
-title: "Notes"
-output: html_notebook
----
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Dev Notes}
+-->
 
 ## D1
 
