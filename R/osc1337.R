@@ -76,12 +76,6 @@ osc1337 <- function(filename=tempfile(fileext = ".png"), inline=TRUE) {
       cat(length(readBin(filename, "raw", file.size(filename))), "\n")
   }
 
-  if(requireNamespace("colorout")) try({
-      if(colorout::isColorOut())
-        on.exit(colorout::ColorOut())
-      colorout::noColorOut()
-  })
-
   escaper(
     '\033]1337;',
     'File=name=', base64enc::base64encode(charToRaw(basename(filename))), ';',
@@ -98,11 +92,18 @@ notify <- function(title, body='') {
   escaper('\033]777;notify;', title, ';', body, '\a\n')
 }
 
-put52 <- function(..., payload=paste(..., collapse='\n')) {
-  escaper('\033]52;c;',payload, '\a')
+put52 <- function(...) {
+  payload <- base64enc::base64encode(charToRaw(paste(..., collapse='\n')))
+  escaper('\033]52;c;', payload, '\a')
 }
 
 escaper <- function(...) {
+  if(requireNamespace("colorout")) try({
+      if(colorout::isColorOut())
+        on.exit(colorout::ColorOut())
+      colorout::noColorOut()
+  })
+
   if (nzchar(Sys.getenv("TMUX"))) escaper.tmux(...)
   else if (grepl("^screen", Sys.getenv("TERM"))) escaper.screen(...)
   else cat(..., sep='')
