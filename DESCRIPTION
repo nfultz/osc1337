@@ -2,7 +2,7 @@ Package: osc1337
 Type: Package
 Title: Terminal Graphics with 'OSC 1337'
 Version: 0.1.0
-Date: 2020-02-26
+Date: 2020-03-11
 Author: Neal Fultz, Mike Frysinger for original shell scripts
 Maintainer: Neal Fultz <nfultz@gmail.com>
 Description: Implements graphics device for 'OSC1337'-compliant terminal.
@@ -10,3 +10,4 @@ License: GPL (>= 2)
 Imports: grDevices, base64enc
 VignetteBuilder: knitr
 Suggests: colorout, knitr
+Additional_repositories: http://njnmverse.s3-website-us-west-1.amazonaws.com/
