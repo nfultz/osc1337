@@ -84,7 +84,7 @@ show1337 <- function(filename, size=c('auto', 'auto')) {
 osc1337 <- function(filename, ...) {
   x <- base64enc::base64encode(charToRaw(basename(filename)))
   x <- c(name=x, ...)
-  x <- paste0(names(x), '=', x, sep=';')
+  x <- paste0(names(x), '=', x, sep=';', collapse='')
 
   escaper( '\033]1337;', 'File=', x, ':', base64enc::base64encode(filename), '\a')
 }
