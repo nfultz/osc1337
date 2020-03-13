@@ -94,11 +94,13 @@ osc1337 <- function(filename=tempfile(fileext = ".png"), inline=TRUE) {
 
 }
 
-
-notify <- function(title, body) {
+notify <- function(title, body='') {
   escaper('\033]777;notify;', title, ';', body, '\a\n')
 }
 
+put52 <- function(..., payload=paste(..., collapse='\n')) {
+  escaper('\033]52;c;',payload, '\a')
+}
 
 escaper <- function(...) {
   if (nzchar(Sys.getenv("TMUX"))) escaper.tmux(...)
