@@ -28,7 +28,7 @@ oldopts <- new.env(parent = emptyenv())
     dirty <- .Call("reset_mode", as.integer(oldopts$i - 1), PACKAGE="osc1337")
 
     if(dirty && ok && !visible) {
-      osc1337()
+      autoshow()
     }
 
     TRUE
@@ -61,31 +61,42 @@ nullpng <- function(filename = nullfile(),
   dev.cur()
 }
 
-
-
-osc1337 <- function(filename=tempfile(fileext = ".png"), inline=TRUE) {
-
-  inline <- if(inline) "inline=1:" else ""
+autoshow <- function(filename=tempfile(fileext = ".png")) {
   size <- dev.size("px")
 
   i <- dev.copy(png, filename=filename, width=size[1], height=size[2])
   dev.off(i)
+
+  show1337(filename, paste0(size, 'px'))
+
+}
+
+show1337 <- function(filename, size=c('auto', 'auto')) {
 
   if(getOption("osc1337.debug", FALSE)) {
       cat(filename, "\n", size, "\n")
       cat(length(readBin(filename, "raw", file.size(filename))), "\n")
   }
 
+  osc1337(
+    filename,
+    width=size[1],
+    height=size[2],
+    inline=1
+  )
+}
+
+osc1337 <- function(filename, ...) {
+  x <- base64enc::base64encode(charToRaw(basename(filename)))
+  x <- c(name=x, ...)
+  x <- paste0(names(x), '=', x, sep=';')
+
   escaper(
     '\033]1337;',
-    'File=name=', base64enc::base64encode(charToRaw(basename(filename))), ';',
-    'width=', size[1], ';',
-    'height=', size[2], ';',
-    inline,
+    'File=', x, ':',
     base64enc::base64encode(filename),
     '\a'
   )
-
 }
 
 notify <- function(title, body='') {
@@ -110,7 +121,6 @@ escaper <- function(...) {
 }
 
 escaper.tmux <- function(...) cat('\033Ptmux;\033',...,'\033\\', sep='')
-
 
 escaper.screen <- function(...) {
   limit <- 255 - 4
