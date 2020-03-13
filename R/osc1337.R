@@ -99,7 +99,7 @@ put52 <- function(...) {
 }
 
 escaper <- function(...) {
-  if(requireNamespace("colorout")) try({
+  if(requireNamespace("colorout", quietly=TRUE)) try({
       if(colorout::isColorOut())
         on.exit(try(colorout::ColorOut()))
       colorout::noColorOut()
